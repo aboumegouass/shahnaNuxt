@@ -36,11 +36,6 @@
                 <div class="spinner-border" role="status"></div>
               </div>
             </div>
-
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-              <nuxt-link to="/login" class="btn butt-primary butt-md px-4 ml-2">سجل متجرك الآن</nuxt-link>
-              <nuxt-link to="/login" class="btn butt-primary-out butt-md px-4 me-sm-3">تسجيل الدخول</nuxt-link>
-            </div>
           </div>
         </div>
 
