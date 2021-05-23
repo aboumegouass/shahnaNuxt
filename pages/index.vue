@@ -135,7 +135,7 @@
           </div>
           <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 bg-white align-items-center rounded-3 border shadow-lg">
             <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
-              <div v-html="aboutContent"></div>
+              <p class="lead" d v-text="aboutContent"></p>
               <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
                 <nuxt-link to="/login" class="btn butt-primary butt-md">Primary</nuxt-link>
                 <nuxt-link to="/login" class="btn butt-primary-out mr-2 butt-md">Default</nuxt-link>

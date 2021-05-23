@@ -2,64 +2,17 @@
   <div class="container">
     <div class="page-heading">
       <h5 class="title">
-        <i class="fa fa-file"></i> الباقات
+        <i class="fa fa-edit"></i> التعديل
       </h5>
     </div>
-    <button title="يمكنك الضغط على المفتاح N" class="btn butt-xs butt-primary" v-b-modal="'modalAdd'">
-      <i class="fa fa-plus"></i> إضافة <span class="key-code">N</span>
-    </button>
-    <hr />
-    <div :class="{'sh-data-container bg-white': true, 'is-loading': is_pros}">
+    <div
+      v-if="this.$route.query"
+      :class="{'sh-data-container bg-white': true, ' is-loading': is_pros}"
+    >
       <div class="overlay">
         <div class="spinner-border" role="status"></div>
       </div>
-      <table class="table sh-data-table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>اسم الباقة</th>
-            <th>سعر الباقة</th>
-            <th>نوع الشحن</th>
-            <th>الحد الأدنى للتحميل</th>
-            <th>العمليات</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in laravelData.data" :key="item.id">
-            <td>{{ item.name }}</td>
-            <td>{{ item.price }}</td>
-            <td>{{ item.shipping_type_id }}</td>
-            <td>{{ item.min_up }}</td>
-            <td class="btns-tools">
-              <nuxt-link class="tool-btn" :to="'/settings/shippings/bouquet_edit?id=' + item.id" prefetch>
-                <i class="fa fa-edit"></i>
-              </nuxt-link>
-              <button class="tool-btn delete-button" @click="delItem(item.id)">
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="errorsRslt">
-        <div class="error-results">
-          <p class="text">{{ errorsRslt }}</p>
-        </div>
-      </div>
-      <advanced-laravel-vue-paginate
-        previousText="السابق"
-        nextText="التالي"
-        :data="laravelData"
-        @paginateTo="getResults"
-      />
-    </div>
-    <b-modal
-      id="modalAdd"
-      title="إضافة مدينة"
-      modal-class="addFormWithoutFoorer modal-700"
-      ok-title="إغلاق"
-      ok-disabled
-    >
-      <div class="admin-container h-auto py-0">
+      <div class="admin-container is-form-single h-auto py-0">
         <!-- 'is-loading' -->
         <div class="admin-overlay">
           <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
@@ -67,7 +20,7 @@
           </div>
         </div>
         <div class="admin-froms">
-          <form action @submit.prevent="add()" novalidate>
+          <form action @submit.prevent="edit()" novalidate>
             <div class="admin-froms-body">
               <div class="row">
                 <div class="col-md-6">
@@ -116,6 +69,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="col-md-6">
                   <div class="admin-froms-item">
                     <label class="lable-input" for="app_min_up">الحد الأقصى للتحميل</label>
@@ -154,7 +108,6 @@
                     <div class="relative">
                       <div class="row">
                         <div class="col-sm-4" v-for="(item, i) in shipp_volumes_list" :key="i">
-
                           <div class="custom-control custom-checkbox my-1 mr-sm-2">
                             <input
                               v-model="forms.shipping_volumes"
@@ -162,6 +115,7 @@
                               :value="i"
                               class="custom-control-input"
                               :id="'actived-' + item"
+                              :checked="item.id === 3"
                             />
                             <label class="custom-control-label" :for="'actived-' + item">{{ item }}</label>
                           </div>
@@ -173,117 +127,85 @@
               </div>
             </div>
             <div class="admin-froms-footer">
-              <button class="btn butt-primary butt-md">
+              <button type="submit" class="btn butt-primary butt-md">
                 <i class="fa fa-save"></i> حفظ البيانات
               </button>
             </div>
           </form>
         </div>
       </div>
-    </b-modal>
+    </div>
+    <div v-else></div>
+    <button class="circullar-button" @click="$router.go(-1)">
+      <i class="fa fa-arrow-left"></i>
+    </button>
   </div>
 </template>
 <script>
-import AdvancedLaravelVuePaginate from "advanced-laravel-vue-paginate";
-import "advanced-laravel-vue-paginate/dist/advanced-laravel-vue-paginate.css";
-
 export default {
   layout: "withSidebar",
-  head: {
-    title: "الباقات ",
-  },
   middleware: "auth",
-  components: {
-    AdvancedLaravelVuePaginate,
+  head: {
+    title: "التعديل",
   },
   data() {
     return {
       forms: {
-          name: "",
-          shipping_of_month: "",
-          shipping_type_id: "",
-          shipping_volumes: [],
-          min_up: "",
-          price: "",
+        name: "",
+        shipping_of_month: "",
+        shipping_type_id: "",
+        shipping_volumes: [],
+        min_up: "",
+        price: "",
       },
-      shipp_type_list: {},
-      shipp_volumes_list: {},
       is_pros: false,
-      errors: "",
-      errorsRslt: "",
-      laravelData: {},
+      shipp_type_list: [],
+      shipp_volumes_list: [],
     };
   },
   methods: {
-    showAlert() {
-      // Use sweetalert2
-      this.$swal("Hello Vue world!!!");
-    },
-    delItem(id) {
-      this.$swal
-        .fire({
-          title: "هل أنت متأكد؟",
-          text: "هل تريد حقا حذف هذا العنصر؟",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "نعم, متأكد!",
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            this.$axios
-              .$post("bouquets/" + id + "/delete")
-              .then((res) => {
-                this.getResults();
-                this.errors = "";
-              })
-              .catch((e) => {
-                //console.log(e.response);
-              });
-              this.$swal.fire("تم الحذف!", "لقد تم حذف العنصر بنجاح!", "success");
-              this.getResults();
-          }
-        });
-
-    },
-    add() {
-      this.$axios
-        .$post("bouquets/store", this.forms)
-        .then((res) => {
-          //console.log(res);
-          this.$bvModal.hide("modalAdd");
-          this.forms.name = "";
-          this.getResults();
-          this.errors = {};
-        })
-        .catch((e) => {
-          if (e.response.status === 404) {
-            this.errors = "حدث خطأ غير متوقع . يرجى إعادة المحاولة";
-          }
-          if (e.response.status === 422) {
-            this.errors = e.response.data;
-          }
-        });
-    },
-    getResults(page = 1) {
+    edit() {
       this.is_pros = true;
       this.$axios
-        .$get("bouquets?type=paginate&num=3&page=" + page)
-        .then((response) => {
+        .$post("bouquets/" + this.$route.query.id + "/update", this.forms)
+        .then((res) => {
+          this.$swal.fire("تم التعديل !", "لقد تم التعديل بنجاح!", "success");
           this.is_pros = false;
-          this.laravelData = response;
-          console.log(response.data);
+          this.getEdit();
+        })
+        .catch((e) => {
+          this.is_pros = false;
+          if (e.response.status === 404) {
+            this.$swal.fire(
+              "حدث خطأ !",
+              "حدث خطأ غير متوقع . يرجى إعادة المحاولة!",
+              "error"
+            );
+          }
+          if (e.response.status === 422) {
+            this.$swal.fire("حدث خطأ !", "يرجى ملأ جميع البيانات!", "error");
+          }
+        });
+    },
+    getEdit() {
+      this.is_pros = true;
+      this.$axios
+        .$get("bouquets/" + this.$route.query.id + "/edit")
+        .then((response) => {
+          this.forms.name = response.bouquet.name;
+          this.forms.shipping_of_month = response.bouquet.shipping_of_month;
+          this.forms.shipping_type_id = response.bouquet.shipping_type_id;
+          //this.forms.shipping_volumes = response.bouquet.shipping_volumes;
+          this.forms.min_up = response.bouquet.min_up;
+          this.forms.price = response.bouquet.price;
 
+          this.is_pros = false;
         })
         .catch((err) => {
           this.is_pros = false;
-          if (err.response.status === 404) {
-            this.errorsRslt = "حدث خطأ غير متوقع . يرجى إعادة المحاولة";
-          }
         });
     },
-    getTypes() {
+    getTypesAndVolumes() {
       this.$axios
         .$get("bouquets/create")
         .then((response) => {
@@ -294,16 +216,15 @@ export default {
           //console.log(err.response);
         });
     },
+    isChecked(index) {
+      return this.availableRoles[index].id === this.user.roles[index].id;
+    },
   },
   mounted() {
     // Fetch initial results
-    this.getResults();
-    this.getTypes();
-    document.addEventListener("keydown", (e) => {
-      if (e.keyCode == 78) {
-        this.$bvModal.show("modalAdd");
-      }
-    });
+    this.getEdit();
+    this.getTypesAndVolumes();
+    //console.log(this.$route);
   },
 };
 </script>

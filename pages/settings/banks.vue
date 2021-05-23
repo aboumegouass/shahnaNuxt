@@ -28,7 +28,7 @@
             <td>{{ item.number_account }}</td>
             <td>{{ item.number_iban }}</td>
             <td class="btns-tools">
-              <nuxt-link class="tool-btn" to="/settings/cities" prefetch>
+              <nuxt-link class="tool-btn" :to="'/settings/bank_edit?id=' + item.id" prefetch>
                 <i class="fa fa-edit"></i>
               </nuxt-link>
               <button class="tool-btn delete-button" @click="delItem(item.id)">

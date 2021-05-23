@@ -6,7 +6,7 @@
       </h5>
     </div>
     <button title="يمكنك الضغط على المفتاح N" class="btn butt-xs butt-primary" v-b-modal="'modalAdd'">
-      <i class="fa fa-plus"></i> إضافة (N)
+      <i class="fa fa-plus"></i> إضافة <span class="key-code">N</span>
     </button>
     <hr />
     <div :class="{'sh-data-container bg-white': true, 'is-loading': is_pros}">
@@ -28,7 +28,7 @@
             <td> {{ item.max_weight }} </td>
             <td dir="ltr"> {{ item.length }} X {{ item.width }} X {{ item.height }} </td>
             <td class="btns-tools">
-              <nuxt-link class="tool-btn" to="/settings/cities" prefetch>
+              <nuxt-link class="tool-btn" :to="'/settings/shippings/size_edit?id=' + item.id" prefetch>
                 <i class="fa fa-edit"></i>
               </nuxt-link>
               <button class="tool-btn delete-button" @click="delItem(item.id)">

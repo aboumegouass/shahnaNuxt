@@ -26,58 +26,13 @@
               <NuxtLink :to="'/settings/cities/streets?id=' + item.id">{{ item.name }}</NuxtLink>
             </td>
             <td class="btns-tools">
-              <button class="tool-btn delete-button" v-b-modal="'modalEdit' + item.id">
+              <nuxt-link :to="'/settings/cities/city_edit?id=' + item.id" class="tool-btn delete-button">
                 <i class="fa fa-edit"></i>
-              </button>
+              </nuxt-link>
               <button class="tool-btn delete-button" @click="delItem(item.id)">
                 <i class="fa fa-trash"></i>
               </button>
             </td>
-            <b-modal
-              :id="'modalEdit' + item.id"
-              title="تعديل المدينة"
-              modal-class="addFormWithoutFoorer modal-600"
-              ok-title="إغلاق"
-              ok-disabled
-            >
-              <div class="admin-container h-auto py-0">
-                <!-- 'is-loading' -->
-                <div class="admin-overlay">
-                  <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                </div>
-                <div class="admin-froms">
-                  <form action @submit.prevent="edit(item.id)" novalidate>
-                    <div class="admin-froms-body">
-                      <div class="admin-froms-item">
-                        <label class="lable-input" for="app_id_city_name">اسم المدينة</label>
-                        <div class="relative">
-                          <input
-                            autocomplete="off"
-                            required
-                            v-model="formsEdit.name"
-                            type="text"
-                            placeholder="اسم المدينة"
-                            class="form-input form-control"
-                          />
-                          <div v-if="errors">
-                            <div class="is-invalid">
-                              <span>{{ errors }}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="admin-froms-footer">
-                      <button class="btn butt-primary butt-md">
-                        <i class="fa fa-save"></i> حفظ البيانات
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </b-modal>
           </tr>
         </tbody>
       </table>

@@ -25,7 +25,7 @@
           <tr v-for="(item, i) in laravelData" :key="i">
             <td>{{ item.name }}</td>
             <td class="btns-tools">
-              <nuxt-link class="tool-btn" to="/settings/cities" prefetch>
+              <nuxt-link class="tool-btn" :to="'/settings/cities/streets/street_edit?id=' + item.id" prefetch>
                 <i class="fa fa-edit"></i>
               </nuxt-link>
               <button class="tool-btn delete-button" @click="delItem(item.id)">
@@ -118,7 +118,7 @@ export default {
       },
       is_pros: false,
       errors: {},
-      laravelData: {},
+      laravelData: [],
       errorsRslt: "",
       parentData: {},
     };
@@ -144,31 +144,26 @@ export default {
       this.is_pros = true;
       try {
         this.$axios
-          .$get(
-            "cities/" +
-              this.$nuxt.$route.query.id +
-              "/edit/?type=paginate&num=3&page=" +
-              page
-          )
+          .$get("cities/" + this.$route.query.id + "/edit/?type=paginate&num=3&page=" + page)
           .then((response) => {
             this.is_pros = false;
+            console.log(response);
+
             if (response.states.length == 0) {
-              this.errorsRslt = "لا توجد بيانات";
+              this.$swal.fire("حدث خطأ!", "لا توجد بيانات لعرضها!", "error");
             } else {
               this.laravelData = response.states;
               this.parentData = response;
-              this.errorsRslt = "";
             }
           })
           .catch((err) => {
             if (err.response.status === 404) {
-              this.errorsRslt = "حدث خطأ غير متوقع . يرجى إعادة المحاولة";
+              this.$swal.fire("حدث خطأ!", "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى!", "error");
               this.is_pros = false;
             }
             if (err.response) {
-              this.errorsRslt = "حدث خطأ غير متوقع . يرجى إعادة المحاولة";
+              this.$swal.fire("حدث خطأ!", "لم يتم عرض البيانات يرجى المحاولة مرة أخرى!", "error");
               this.is_pros = false;
-              console.log(err.response);
             }
           });
       } catch (e) {

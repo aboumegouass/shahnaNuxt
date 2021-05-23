@@ -5,7 +5,10 @@
         <i class="fa fa-edit"></i> التعديل
       </h5>
     </div>
-    <div v-if="this.$route.query" :class="{'sh-data-container bg-white': true, 'is-loading': is_pros}">
+    <div
+      v-if="this.$route.query"
+      :class="{'sh-data-container bg-white': true, ' is-loading': is_pros}"
+    >
       <div class="overlay">
         <div class="spinner-border" role="status"></div>
       </div>
@@ -20,50 +23,17 @@
           <form action @submit.prevent="edit()" novalidate>
             <div class="admin-froms-body">
               <div class="row">
-                <div class="col-md-6 p-0 grid-pdd">
+                <div class="col-md-12">
                   <div class="admin-froms-item">
-                    <label class="lable-input" for="app_nationalty_name">اسم البنك</label>
+                    <label class="lable-input" for="app_id_city_name">نوع الشحن</label>
                     <div class="relative">
                       <input
                         autocomplete="off"
                         required
-                        type="text"
-                        placeholder="اسم البنك"
-                        id="app_nationalty_name"
                         v-model="forms.name"
-                        class="form-input form-control sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 p-0 grid-pdd">
-                  <div class="admin-froms-item">
-                    <label class="lable-input" for="app_account_number">رقم الحساب</label>
-                    <div class="relative">
-                      <input
-                        autocomplete="off"
-                        required
                         type="text"
-                        placeholder="رقم الحساب"
-                        id="app_account_number"
-                        v-model="forms.number_account"
-                        class="form-input form-control sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12 p-0 grid-pdd">
-                  <div class="admin-froms-item">
-                    <label class="lable-input" for="app_account_number">رقم الإيبان</label>
-                    <div class="relative">
-                      <input
-                        autocomplete="off"
-                        required
-                        type="text"
-                        placeholder="رقم الإيبان"
-                        id="app_account_number"
-                        v-model="forms.number_iban"
-                        class="form-input form-control sm"
+                        placeholder="نوع الشحن"
+                        class="form-input sm form-control"
                       />
                     </div>
                   </div>
@@ -79,10 +49,10 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      
-    </div>
-    <button class="circullar-button" @click="$router.go(-1)"><i class="fa fa-arrow-left"></i></button>
+    <div v-else></div>
+    <button class="circullar-button" @click="$router.go(-1)">
+      <i class="fa fa-arrow-left"></i>
+    </button>
   </div>
 </template>
 <script>
@@ -96,23 +66,31 @@ export default {
     return {
       forms: {
         name: "",
-        number_account: "",
-        number_iban: "",
       },
       is_pros: false,
     };
   },
   methods: {
     edit() {
+      this.is_pros = true;
       this.$axios
-        .$post("banks_site/" + this.$route.query.id + "/update", this.forms)
+        .$post(
+          "shipping_types/" + this.$route.query.id + "/update",
+          this.forms
+        )
         .then((res) => {
           this.$swal.fire("تم التعديل !", "لقد تم التعديل بنجاح!", "success");
-          this.getEdit()
+          this.is_pros = false;
+          this.getEdit();
         })
         .catch((e) => {
+          this.is_pros = false;
           if (e.response.status === 404) {
-            this.$swal.fire("حدث خطأ !", "حدث خطأ غير متوقع . يرجى إعادة المحاولة!", "error");
+            this.$swal.fire(
+              "حدث خطأ !",
+              "حدث خطأ غير متوقع . يرجى إعادة المحاولة!",
+              "error"
+            );
           }
           if (e.response.status === 422) {
             this.$swal.fire("حدث خطأ !", "يرجى ملأ جميع البيانات!", "error");
@@ -122,12 +100,11 @@ export default {
     getEdit() {
       this.is_pros = true;
       this.$axios
-        .$get("banks_site/" + this.$route.query.id + "/edit")
+        .$get("shipping_types/" + this.$route.query.id + "/edit")
         .then((response) => {
           this.forms.name = response.name;
-          this.forms.number_account = response.number_account;
-          this.forms.number_iban = response.number_iban;
           this.is_pros = false;
+          console.log(response);
         })
         .catch((err) => {
           this.is_pros = false;

@@ -20,49 +20,17 @@
           <form action @submit.prevent="edit()" novalidate>
             <div class="admin-froms-body">
               <div class="row">
-                <div class="col-md-6 p-0 grid-pdd">
-                  <div class="admin-froms-item">
-                    <label class="lable-input" for="app_nationalty_name">اسم البنك</label>
-                    <div class="relative">
-                      <input
-                        autocomplete="off"
-                        required
-                        type="text"
-                        placeholder="اسم البنك"
-                        id="app_nationalty_name"
-                        v-model="forms.name"
-                        class="form-input form-control sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 p-0 grid-pdd">
-                  <div class="admin-froms-item">
-                    <label class="lable-input" for="app_account_number">رقم الحساب</label>
-                    <div class="relative">
-                      <input
-                        autocomplete="off"
-                        required
-                        type="text"
-                        placeholder="رقم الحساب"
-                        id="app_account_number"
-                        v-model="forms.number_account"
-                        class="form-input form-control sm"
-                      />
-                    </div>
-                  </div>
-                </div>
                 <div class="col-md-12 p-0 grid-pdd">
                   <div class="admin-froms-item">
-                    <label class="lable-input" for="app_account_number">رقم الإيبان</label>
+                    <label class="lable-input" for="app_account_number">اسم الجنسية</label>
                     <div class="relative">
                       <input
                         autocomplete="off"
                         required
                         type="text"
-                        placeholder="رقم الإيبان"
+                        placeholder="اسم الجنسية"
                         id="app_account_number"
-                        v-model="forms.number_iban"
+                        v-model="forms.name"
                         class="form-input form-control sm"
                       />
                     </div>
@@ -96,8 +64,6 @@ export default {
     return {
       forms: {
         name: "",
-        number_account: "",
-        number_iban: "",
       },
       is_pros: false,
     };
@@ -105,7 +71,7 @@ export default {
   methods: {
     edit() {
       this.$axios
-        .$post("banks_site/" + this.$route.query.id + "/update", this.forms)
+        .$post("nationalities/" + this.$route.query.id + "/update", this.forms)
         .then((res) => {
           this.$swal.fire("تم التعديل !", "لقد تم التعديل بنجاح!", "success");
           this.getEdit()
@@ -122,7 +88,7 @@ export default {
     getEdit() {
       this.is_pros = true;
       this.$axios
-        .$get("banks_site/" + this.$route.query.id + "/edit")
+        .$get("nationalities/" + this.$route.query.id + "/edit")
         .then((response) => {
           this.forms.name = response.name;
           this.forms.number_account = response.number_account;

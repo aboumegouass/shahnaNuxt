@@ -70,6 +70,40 @@ a:hover {
           box-shadow: 2px 3px 7px #fff;
 }
 
+.circullar-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  position: fixed;
+  background-color: rgba(34, 45, 74, 0.5);
+  color: #fff;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  left: 30px;
+  top: 90px;
+  text-align: center;
+  -ms-flex-item-align: center;
+      align-self: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.circullar-button:hover {
+  background-color: rgba(34, 45, 74, 0.88);
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
 /*
 -----------------------------------------------------------------------------------------
     Timeline
@@ -1859,6 +1893,13 @@ a:hover {
   width: 450px;
 }
 
+@media (min-width: 768px) {
+  .admin-container.is-form-single {
+    width: 800px;
+    margin: 20px auto;
+  }
+}
+
 .list-group {
   height: 200px;
   overflow-y: scroll;
@@ -2185,12 +2226,207 @@ tr.focus {
 
 /*
 -----------------------------------------------------------------------------------------
+    Add Store Page
+-----------------------------------------------------------------------------------------
+*/
+.app-add-store {
+  position: relative;
+  background-color: #fff;
+  padding: 35px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  -webkit-box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.082);
+          box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.082);
+}
+
+@media (min-width: 768px) {
+  .app-add-store {
+    width: 700px;
+    margin: 30px auto;
+  }
+}
+
+.app-add-store .overlay {
+  position: absolute;
+  display: none;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 200;
+  opacity: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  background-color: rgba(255, 255, 255, 0.849);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.app-add-store.is-loading .overlay {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  opacity: 1;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.app-add-store .admin-from-header {
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f5;
+  margin-bottom: 10px;
+}
+
+.app-add-store .admin-from-header .title {
+  font-size: 17px;
+  margin: 0;
+  color: #333;
+  font-weight: bold;
+  position: relative;
+}
+
+.app-add-store .admin-from-header .title .user-badge {
+  display: inline-block;
+  padding: 8px 10px !important;
+  font-size: 12px;
+  background-color: #222d4a;
+  color: #fff;
+  padding: 7px 13px;
+  position: relative;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.app-add-store .admin-from-header .title .user-badge::after {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  right: -10px;
+  top: 0;
+  border-style: solid;
+  border-width: 15px 0 15px 20px;
+  border-color: transparent transparent transparent #222d4a;
+}
+
+.app-add-store .admin-froms .admin-froms-body .admin-froms-item {
+  padding: 10px 0;
+}
+
+.app-add-store .admin-froms .admin-froms-body .admin-froms-item .lable-input {
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+}
+
+.app-add-store .admin-froms .admin-froms-body .admin-froms-item .form-icon-info {
+  display: inline-block;
+  position: relative;
+}
+
+.app-add-store .admin-froms .admin-froms-body .admin-froms-item .form-icon-info .hover-content {
+  opacity: 0;
+  position: absolute;
+  -webkit-transform: translateX(-80px);
+          transform: translateX(-80px);
+  padding: 7px 10px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  width: 200px;
+  border-radius: 7px;
+  top: -50%;
+  right: 25px;
+  background-color: #ffd600;
+  z-index: 2500;
+}
+
+.app-add-store .admin-froms .admin-froms-body .admin-froms-item .form-icon-info .hover-content::after {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  right: -10px;
+  top: 0;
+  border-style: solid;
+  border-width: 15px 0 15px 20px;
+  border-color: transparent transparent transparent #ffd600;
+}
+
+.app-add-store .admin-froms .admin-froms-body .admin-froms-item .form-icon-info .hover-content .text {
+  color: #222d4a;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 300;
+}
+
+.app-add-store .admin-froms .admin-froms-body .admin-froms-item .form-icon-info .hover-content.is-showing {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  opacity: 1;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.app-add-store .admin-froms .admin-froms-body .admin-froms-item .form-input:focus {
+  border-color: #999;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.app-add-store .admin-froms .admin-froms-footer {
+  margin-top: 5px;
+  border-top: 1px solid #f4f4f4;
+  padding: 15px 15px 0 15px;
+}
+
+.smart-alert {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 20px;
+}
+
+.smart-alert .smart-alert-img {
+  padding-left: 10px;
+}
+
+.smart-alert .smart-alert-img .icon-featured {
+  font-size: 50px;
+}
+
+.smart-alert .smart-alert-content .title {
+  margin: 0;
+  font-weight: bold;
+  color: #555;
+  font-size: 17px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.smart-alert .smart-alert-content .text {
+  margin: 0;
+  font-weight: 200;
+  color: #444;
+  font-size: 13px;
+  line-height: 25px;
+}
+
+/*
+-----------------------------------------------------------------------------------------
     Sidebar
 -----------------------------------------------------------------------------------------
 */
 .sidebar-column {
   background-color: #222d4a;
-  height: 768px;
 }
 
 .sidebar-column .sidebar-menus {

@@ -2,85 +2,14 @@
   <div class="container">
     <div class="page-heading">
       <h5 class="title">
-        <i class="fa fa-file"></i> إدارة الأعضاء
+        <i class="fa fa-edit"></i> التعديل
       </h5>
     </div>
-    <button class="btn butt-xs butt-primary" v-b-modal="'modalAdd'">
-      <i class="fa fa-plus"></i> إضافة
-    </button>
-    <hr />
-    <div :class="{'sh-data-container bg-white': true, 'is-loading': is_pros}">
+    <div v-if="this.$route.query" :class="{'sh-data-container bg-white': true, ' is-loading': is_pros}">
       <div class="overlay">
         <div class="spinner-border" role="status"></div>
       </div>
-      <table class="table sh-data-table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>الاسم الكامل</th>
-            <th>البريد الإلكتروني</th>
-            <th>التوثيق</th>
-            <th>الجنسية</th>
-            <th>العمليات</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in laravelData.data" :key="item.id">
-            <td>{{ item.first_name }} {{ item.last_name }}</td>
-            <td>aboumegouass@gmail.com</td>
-            <td>
-              <span class="badge badge-success">
-                <i class="fa fa-check"></i>
-              </span>
-              <span class="badge badge-danger">
-                <i class="fa fa-times"></i>
-              </span>
-            </td>
-            <td>الجزائرية</td>
-            <td class="btns-tools">
-              <router-link
-                :to="'/users/profile'"
-                class="btn btn-circle butt-primary-out butt-xs2"
-                title="تفاصيل الحساب"
-              >
-                <i class="fa fa-list"></i>
-              </router-link>
-              <button class="btn btn-circle butt-red butt-xs2">
-                <i class="fa fa-pause"></i>
-              </button>
-              <button class="btn btn-circle butt-primary-out butt-xs2">
-                <i class="fa fa-lock"></i>
-              </button>
-              <router-link
-                :to="'/users/add_store'"
-                class="btn btn-circle butt-green butt-xs2"
-              >
-                <i class="fa fa-plus"></i> إضافة متجر
-              </router-link>
-              <span class="badge badge-info"><i class="fa fa-check"></i> لديه متجر</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="errorsRslt">
-        <div class="error-results">
-          <p class="text">{{ errorsRslt }}</p>
-        </div>
-      </div>
-      <advanced-laravel-vue-paginate
-        previousText="السابق"
-        nextText="التالي"
-        :data="laravelData"
-        @paginateTo="getResults"
-      />
-    </div>
-    <b-modal
-      id="modalAdd"
-      title="إضافة مدينة"
-      modal-class="addFormWithoutFoorer modal-700"
-      ok-title="إغلاق"
-      ok-disabled
-    >
-      <div class="admin-container h-auto py-0">
+      <div class="admin-container is-form-single h-auto py-0">
         <!-- 'is-loading' -->
         <div class="admin-overlay">
           <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
@@ -88,7 +17,7 @@
           </div>
         </div>
         <div class="admin-froms">
-          <form action @submit.prevent="add()" novalidate>
+          <form action @submit.prevent="edit()" novalidate>
             <div class="admin-froms-body">
               <div class="row">
                 <div class="col-md-6">
@@ -184,27 +113,26 @@
               </div>
             </div>
             <div class="admin-froms-footer">
-              <button class="btn butt-primary butt-md">
+              <button type="submit" class="btn butt-primary butt-md">
                 <i class="fa fa-save"></i> حفظ البيانات
               </button>
             </div>
           </form>
         </div>
       </div>
-    </b-modal>
+    </div>
+    <div v-else>
+      
+    </div>
+    <button class="circullar-button" @click="$router.go(-1)"><i class="fa fa-arrow-left"></i></button>
   </div>
 </template>
 <script>
-import AdvancedLaravelVuePaginate from "advanced-laravel-vue-paginate";
-import "advanced-laravel-vue-paginate/dist/advanced-laravel-vue-paginate.css";
-
 export default {
   layout: "withSidebar",
+  middleware: "auth",
   head: {
-    title: "إدارة الأعضاء",
-  },
-  components: {
-    AdvancedLaravelVuePaginate,
+    title: "التعديل",
   },
   data() {
     return {
@@ -212,78 +140,57 @@ export default {
         name_shipping_volume_ar: "",
         name_shipping_volume_en: "",
         height: "",
-        length: "",
+        lenght: "",
         width: "",
         max_weight: "",
       },
       is_pros: false,
-      errors: "",
-      errorsRslt: "",
-      laravelData: {},
     };
   },
   methods: {
-    appp(e) {
-      //console.log(window.KeyboardEvent);
-    },
-    showAlert() {
-      // Use sweetalert2
-      this.$swal("Hello Vue world!!!");
-    },
-    delItem(id) {
+    edit() {
+        this.is_pros = true;
       this.$axios
-        .$post("admins/" + id + "/delete")
+        .$post("shipping_volumes/" + this.$route.query.id + "/update", this.forms)
         .then((res) => {
-          this.getResults();
-          this.errors = "";
+
+          this.$swal.fire("تم التعديل !", "لقد تم التعديل بنجاح!", "success");
+          this.is_pros = false;
+          this.getEdit()
         })
         .catch((e) => {
-          console.log(e.response.data);
-          if (e.response.status === 422) {
-            this.errors = e.response.data;
-          }
-        });
-    },
-    add() {
-      this.$axios
-        .$post("admins/store", this.forms)
-        .then((res) => {
-          //console.log(res);
-          this.$bvModal.hide("modalAdd");
-          this.forms.name = "";
-          this.getResults();
-          this.errors = {};
-        })
-        .catch((e) => {
+          this.is_pros = false;
           if (e.response.status === 404) {
-            this.errors = "حدث خطأ غير متوقع . يرجى إعادة المحاولة";
+            this.$swal.fire("حدث خطأ !", "حدث خطأ غير متوقع . يرجى إعادة المحاولة!", "error");
           }
           if (e.response.status === 422) {
-            this.errors = e.response.data;
+            this.$swal.fire("حدث خطأ !", "يرجى ملأ جميع البيانات!", "error");
           }
         });
     },
-    getResults(page = 1) {
+    getEdit() {
       this.is_pros = true;
       this.$axios
-        .$get("admins?type=paginate&num=3&page=" + page)
+        .$get("shipping_volumes/" + this.$route.query.id + "/edit")
         .then((response) => {
+          this.forms.name_shipping_volume_ar = response.name_shipping_volume_ar;
+          this.forms.name_shipping_volume_en = response.name_shipping_volume_en;
+          this.forms.height = response.height;
+          this.forms.lenght = response.length;
+          this.forms.width = response.width;
+          this.forms.max_weight = response.max_weight;
           this.is_pros = false;
-          this.laravelData = response;
-          console.log(response.data);
+          console.log(response);
         })
         .catch((err) => {
           this.is_pros = false;
-          if (err.response.status === 404) {
-            this.errorsRslt = "حدث خطأ غير متوقع . يرجى إعادة المحاولة";
-          }
         });
     },
   },
   mounted() {
     // Fetch initial results
-    this.getResults();
-    this.appp();
+    this.getEdit();
+    //console.log(this.$route);
   },
 };
 </script>
