@@ -101,11 +101,12 @@
                   </label>
                   <div class="relative">
                     <input
+                      dir="ltr"
                       autocomplete="off"
                       required
                       id="app_store_website"
                       type="text"
-                      placeholder="الموقع الرسمي"
+                      placeholder="https://"
                       class="form-input xs form-control"
                     />
                   </div>

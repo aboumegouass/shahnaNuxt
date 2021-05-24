@@ -30,16 +30,14 @@
               </div>
               <div class="col-md-6">
                 <div class="admin-froms-item">
-                  <label class="lable-input" for="app_store_activity">النشاط</label>
+                  <label class="lable-input" for="app_payment_method">طريقة الدفع</label>
                   <div class="relative">
-                    <input
-                      autocomplete="off"
-                      required
-                      type="text"
-                      id="app_store_activity"
-                      placeholder="النشاط"
+                    <select
                       class="form-input xs form-control"
-                    />
+                      id="app_payment_method"
+                    >
+                      <option>اختر من الباقات</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -51,7 +49,7 @@
                       class="form-input xs form-control"
                       id="app_shipping_type_id"
                     >
-                      <option>اختر من الباقات</option>
+                      <option>اختر من المدن</option>
                     </select>
                   </div>
                 </div>
@@ -64,12 +62,12 @@
                       class="form-input xs form-control"
                       id="app_shipping_type_id"
                     >
-                      <option>اختر من الباقات</option>
+                      <option>اختر من الأحياء</option>
                     </select>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="admin-froms-item">
                   <label class="lable-input" for="app_store_maarof_account">اسم المنتج</label>
                   <div class="relative">
@@ -84,37 +82,12 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="admin-froms-item">
-                  <label class="lable-input" for="app_store_website">
-                       الموقع الرسمي
-                      <div class="form-icon-info">
-                          <span class="hover-icon" @mouseenter="onTooltipShowen()" @mouseleave="onTooltipHidden()">
-                              <i class="fa fa-info-circle"></i>
-                          </span>
-                          <span :class="{'hover-content ':true, ' is-showing': is_tooltip_showen}">
-                              <p class="text">يمكنك إضافة موقع رسمي لمتجرك</p>
-                          </span>
-                      </div>
-                  </label>
-                  <div class="relative">
-                    <input
-                      autocomplete="off"
-                      required
-                      id="app_store_website"
-                      type="text"
-                      placeholder="الموقع الرسمي"
-                      class="form-input xs form-control"
-                    />
-                  </div>
-                </div>
-              </div>
               
             </div>
           </div>
           <div class="admin-froms-footer">
             <button class="btn butt-primary2 butt-xs">
-              <i class="fa fa-save"></i> حفظ البيانات
+              <i class="fa fa-check"></i> إرسال الطلب
             </button>
           </div>
         </form>

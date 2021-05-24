@@ -168,10 +168,10 @@
                   <nuxt-link class="dropdown-item" to="/admins/profile">الصفحة الشخصية</nuxt-link>
                 </li>
                 <li>
-                  <nuxt-link class="dropdown-item" to="#">تغيير كلمة المرور</nuxt-link>
+                  <nuxt-link class="dropdown-item" to="/admins/changePassword">تغيير كلمة المرور</nuxt-link>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#" @click="logout">تسجيل الخروج</a>
+                  <a class="dropdown-item" @click="logout">تسجيل الخروج</a>
                 </li>
               </ul>
             </li>
