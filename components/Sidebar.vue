@@ -138,14 +138,11 @@
             </div>
           </div>
 
-          <nuxt-link to="/about" prefetch>
+          <nuxt-link to="/orders" prefetch>
             <span class="icon">
               <img src="../assets/img/icon/6.png" alt />
             </span>
             <span class="text">إدارة الطلبات</span>
-            <span class="icon-caret">
-              <i class="fa fa-angle-down"></i>
-            </span>
           </nuxt-link>
 
           <nuxt-link to="/contacte" prefetch>

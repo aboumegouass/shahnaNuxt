@@ -1116,6 +1116,12 @@ a:hover {
   padding-bottom: 5px;
 }
 
+.sh-data-container .sh-data-toolbar .nav > li select:focus {
+  border-color: #777;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
 .sh-data-container .sh-data-toolbar .nav > li.sh-search {
   position: relative;
 }
@@ -1124,11 +1130,17 @@ a:hover {
   width: 350px;
 }
 
+.sh-data-container .sh-data-toolbar .nav > li.sh-search input:focus {
+  border-color: #777;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
 .sh-data-container .sh-data-toolbar .nav > li.sh-search .icon {
   position: absolute;
   left: 20px;
   font-size: 13px;
-  top: 11px;
+  top: 9px;
   color: #ccc;
 }
 
@@ -1169,6 +1181,10 @@ a:hover {
   color: #fff;
   background-color: #222d4a;
   border-color: #222d4a;
+}
+
+.nuxt-link-active {
+  opacity: 1 !important;
 }
 
 .sh-data-table {
@@ -1213,6 +1229,10 @@ a:hover {
 
 .sh-data-table tbody tr td.btns-tools .tool-btn:hover {
   opacity: 1;
+}
+
+.sh-data-table tbody tr a {
+  font-weight: 300;
 }
 
 .sh-data-table tbody tr:last-child {

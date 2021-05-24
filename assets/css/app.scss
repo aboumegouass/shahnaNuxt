@@ -927,17 +927,25 @@ a {
                 select {
                     text-align: left;
                     padding-bottom: 5px;
+                    &:focus {
+                        border-color: #777;
+                        box-shadow: none;
+                    }
                 }
                 &.sh-search {
                     position: relative;
                     input {
                         width: 350px;
+                        &:focus {
+                            border-color: #777;
+                            box-shadow: none;
+                        }
                     }
                     .icon {
                         position: absolute;
                         left: 20px;
                         font-size: 13px;
-                        top: 11px;
+                        top: 9px;
                         color: #ccc;
                     }
                 }
@@ -994,7 +1002,9 @@ a {
         }
     }
 }
-
+.nuxt-link-active {
+    opacity: 1 !important;
+}
 .sh-data-table {
     background-color: #fff;
     overflow: hidden;
@@ -1032,6 +1042,9 @@ a {
                         }
                     }
                 }
+            }
+            a {
+                font-weight: 300;
             }
             &:last-child {
                 border-bottom: 0 solid transparent;
